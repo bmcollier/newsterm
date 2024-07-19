@@ -7,7 +7,7 @@ if __name__ == '__main__':
         #"Reuters": "https://www.reutersagency.com/feed/?best-types=reuters-news-first&post_type=best"
     }
     options = {
-        "REFRESH_INTERVAL_SECS": 10,
+        "REFRESH_INTERVAL_SECS": 60,
         "SHOW_STORIES_NUM": 10
     }
     num_sources = len(sources)
