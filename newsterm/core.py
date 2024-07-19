@@ -14,13 +14,16 @@ def run(sources: list, options: dict):
     sources_index = 0
     recent_content = [None] * len(sources)
     display = Display()
+    last_published = None
     while running:
         latest_update = feedparser.parse(sources[sources_index][1])
         latest_update = enrich_with_source(latest_update, sources[sources_index][0])
         if recent_content[sources_index] != latest_update.entries:
             recent_content[sources_index] = latest_update
             top_stories = sort_all_content(recent_content, options.get("SHOW_STORIES_NUM"))
-            display_top_stories(top_stories, display)
+            if list(top_stories.items())[0][0].published == last_published:
+                last_published = list(top_stories.items())[0].published
+                display_top_stories(top_stories, display)
         sources_index += 1
         if sources_index == len(sources):
             sources_index = 0

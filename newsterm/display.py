@@ -1,5 +1,7 @@
 import curses
+import pytz
 from collections import OrderedDict
+from datetime import datetime, timedelta
 
 
 class Display:
@@ -18,7 +20,11 @@ class Display:
         self.window.clear()
         for index, content in stories.items():
             self.window.move(index * 2, 0)
-            self.window.addstr(content.source + " " + content.published[17:22] + " " + content.get("title"), curses.A_BOLD)
+
+            published_dt = datetime.strptime(content.published, "%a, %d %b %Y %H:%M:%S %Z")
+            published_dt_local = published_dt + timedelta(hours=1)
+
+            self.window.addstr(content.source + " " + str(published_dt_local)[11:16] + " " + content.get("title"), curses.A_BOLD)
             self.window.move((index * 2) + 1, 0)
             self.window.addstr(content.summary)
         self.window.refresh()
