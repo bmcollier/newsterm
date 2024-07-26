@@ -1,18 +1,35 @@
-from newsterm.core import run
+import argparse
+
+from newsterm.terminal import Terminal
+from newsterm.utils import get_sources
+
+DESCRIPTION = """
+Newsterm runs in a terminal window, and works well on a VT100 terminal. The
+size of the window can be configured, as can the delay between RSS calls. The
+config file takes the following JSON format:
+
+{
+  "sources": {
+    "Source Name 1": "https://path/to/rss.xml", 
+    "Example News 2": "http://path/to/latest.rss"
+  } 
+}
+"""
 
 if __name__ == '__main__':
-    sources = {
-        "BBC": "https://feeds.bbci.co.uk/news/rss.xml",
-        "CNN": "http://rss.cnn.com/rss/cnn_latest.rss"
-        #"Reuters": "https://www.reutersagency.com/feed/?best-types=reuters-news-first&post_type=best"
-    }
-    options = {
-        "REFRESH_INTERVAL_SECS": 60,
-        "SHOW_STORIES_NUM": 10
-    }
-    num_sources = len(sources)
-    if options.get("REFRESH_INTERVAL_SECS") is None:
-        raise ValueError("No refresh interval supplied")
-    if num_sources == 0:
-        raise ValueError("No sources supplied")
-    run(list(sources.items()), options)
+    parser = argparse.ArgumentParser(description="Newsterm - Run an RSS dashboard in a terminal",
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.description = DESCRIPTION
+
+    parser.add_argument('--config', type=str, default='./config.json',
+                        help='Path to the configuration file (default: ./config.json)')
+    parser.add_argument('--width', type=int, default=80, help='Width of the terminal (default: 80)')
+    parser.add_argument('--height', type=int, default=24, help='Height of the terminal (default: 24)')
+    parser.add_argument('--delay', type=int, default=30,
+                        help='Number of seconds to pause between each refresh (default: 30 seconds)')
+
+    args = parser.parse_args()
+
+    sources = get_sources()
+    terminal = Terminal(sources, dimensions=(args.width, args.height), interval_secs=args.delay, config=args.config)
+    terminal.run()

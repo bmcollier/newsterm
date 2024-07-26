@@ -1,0 +1,6 @@
+{
+  "sources": {
+    "Example 1": "http://google.com/news/rss.xml",
+    "Example 2": [1, 2]
+  }
+}
