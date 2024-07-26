@@ -21,8 +21,8 @@ if __name__ == '__main__':
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.description = DESCRIPTION
 
-    parser.add_argument('--config', type=str, default='./config.json',
-                        help='Path to the configuration file (default: ./config.json)')
+    parser.add_argument('--config', type=str, default='./newsterm/config.json',
+                        help='Path to the configuration file (default: ./newsterm/config.json)')
     parser.add_argument('--width', type=int, default=80, help='Width of the terminal (default: 80)')
     parser.add_argument('--height', type=int, default=24, help='Height of the terminal (default: 24)')
     parser.add_argument('--delay', type=int, default=30,
@@ -30,6 +30,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    sources = get_sources()
-    terminal = Terminal(sources, dimensions=(args.width, args.height), interval_secs=args.delay, config=args.config)
+    sources = get_sources(filepath=args.config)
+    terminal = Terminal(sources, dimensions=(args.width, args.height), interval_secs=args.delay)
     terminal.run()

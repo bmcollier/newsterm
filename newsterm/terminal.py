@@ -9,14 +9,12 @@ DEFAULT_DIMENSIONS = (80, 24)
 
 class Terminal:
 
-    def __init__(self, sources: dict, dimensions: tuple = DEFAULT_DIMENSIONS, interval_secs: int = 60,
-                 config: str = './config.json'):
+    def __init__(self, sources: dict, dimensions: tuple = DEFAULT_DIMENSIONS, interval_secs: int = 60):
         self.sources = sources
         self.dimensions = dimensions
         self.interval_secs = interval_secs
-        self.config = config
 
-    def run(self):
+    def run(self, run_once: bool = False):
         """ Primary run loop - call sources and update terminal
         :return:
         """
@@ -43,6 +41,8 @@ class Terminal:
                 cache.add_list(latest_updates)
                 interval_counter = 0
             interval_counter += 1
+            if run_once:
+                break
 
         # Quit cleanly
         display.clean_quit()

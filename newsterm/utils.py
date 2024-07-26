@@ -1,9 +1,7 @@
 import json
 
-DEFAULT_FILEPATH = './newsterm/config.json'
 
-
-def get_sources(filepath: str = DEFAULT_FILEPATH) -> dict:
+def get_sources(filepath: str) -> dict:
     """ Load a list of URLs giving sources for RSS feeds
 
     :param filepath: Path to a JSON file containing URLs to RSS feeds
