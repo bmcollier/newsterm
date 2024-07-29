@@ -32,11 +32,11 @@ class Terminal:
 
         # Run until quit
         while True:
-            display.update(cache.get_most_recent_entries(10))
             if display.quit_requested():
                 break
             sleep(1)
-            if interval_counter == self.interval_secs:
+            if interval_counter % self.interval_secs == 0:
+                display.update(cache.get_most_recent_entries(10))
                 latest_updates = get_latest_updates(self.sources)
                 cache.add_list(latest_updates)
                 interval_counter = 0
