@@ -1,6 +1,7 @@
 {
   "sources": {
     "BBC": "https://feeds.bbci.co.uk/news/rss.xml",
-    "CNN": "http://rss.cnn.com/rss/cnn_latest.rss"
+    "CNN": "http://rss.cnn.com/rss/cnn_latest.rss",
+    "NPR": "https://feeds.npr.org/1001/rss.xml"
   }
 }

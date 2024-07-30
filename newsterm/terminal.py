@@ -1,18 +1,18 @@
 from time import sleep
+from pytz import timezone
 
 from newsterm.display import Display
 from newsterm.cache import Cache
 from newsterm.feeds import get_latest_updates
 
-DEFAULT_DIMENSIONS = (80, 24)
-
 
 class Terminal:
 
-    def __init__(self, sources: dict, dimensions: tuple = DEFAULT_DIMENSIONS, interval_secs: int = 60):
+    def __init__(self, sources: dict, dimensions: tuple, interval_secs: int, locality: timezone):
         self.sources = sources
         self.dimensions = dimensions
         self.interval_secs = interval_secs
+        self.locality = locality
 
     def run(self, run_once: bool = False):
         """ Primary run loop - call sources and update terminal
@@ -27,7 +27,7 @@ class Terminal:
         print("Loading initial sources...")
 
         # Initialise Cache
-        latest_updates = get_latest_updates(self.sources)
+        latest_updates = get_latest_updates(self.sources, self.locality)
         cache.add_list(latest_updates)
 
         # Run until quit
@@ -37,7 +37,7 @@ class Terminal:
             sleep(1)
             if interval_counter % self.interval_secs == 0:
                 display.update(cache.get_most_recent_entries(10))
-                latest_updates = get_latest_updates(self.sources)
+                latest_updates = get_latest_updates(self.sources, self.locality)
                 cache.add_list(latest_updates)
                 interval_counter = 0
             interval_counter += 1
