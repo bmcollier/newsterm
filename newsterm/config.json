@@ -12,7 +12,6 @@
     "Al-Jazeera": "https://www.ajplus.net/stories?format=rss",
     "LeMonde": "https://www.lemonde.fr/en/rss/une.xml",
     "CBS": "https://www.cbsnews.com/latest/rss/main",
-    "Space": "https://www.space.com/feeds/all",
-    "Nature": "https://www.nature.com/nature.rss"
+    "Space": "https://www.space.com/feeds/all"
   }
 }
