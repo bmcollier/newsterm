@@ -8,11 +8,12 @@ import feedparser
 from newsterm.story import Story
 
 
-def get_latest_updates(sources: dict, locality: timezone) -> list:
+def get_latest_updates(sources: dict, locality: timezone, ignore_future: bool) -> list:
     """ Calls each source and populates a list with Story objects from the sources
 
     :param sources: A list of RSS feeds to check
     :param locality: A local timezone
+    :param ignore_future: Ignore feed items dated in the future
     :return: A list of Story objects returned from the RSS feeds
     """
     latest_updates = []
@@ -22,6 +23,8 @@ def get_latest_updates(sources: dict, locality: timezone) -> list:
             try:
                 published_dt = parser.parse(entry.published)
                 localised_datetime = published_dt.astimezone(locality)
+                if ignore_future and (localised_datetime > datetime.now(locality)):
+                    continue
                 new_story = Story(source=source_name,
                                   title=entry.title,
                                   summary=remove_html_markup(entry.summary),

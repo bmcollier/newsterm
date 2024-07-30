@@ -53,8 +53,13 @@ def main():
     )
 
     parser.add_argument(
+        '--ignore-future', action='store_false',
+        help="Ignore entries which are dated in the future"
+    )
+
+    parser.add_argument(
         '--extended-help', action='store_true',
-        help="Show extended help for options --locality, --width, --heigh"
+        help="Show extended help for options --locality, --width, --height"
     )
 
     args = parser.parse_args()
@@ -65,7 +70,7 @@ def main():
         sources = get_sources(filepath=args.config)
         local_timezone = timezone(args.locality)
         terminal = Terminal(sources, dimensions=(args.width, args.height), interval_secs=args.delay,
-                            locality=local_timezone)
+                            locality=local_timezone, ignore_future=args.ignore_future)
         terminal.run()
 
 
