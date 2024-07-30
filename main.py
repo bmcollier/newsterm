@@ -53,8 +53,8 @@ def main():
     )
 
     parser.add_argument(
-        '--ignore-future', action='store_false',
-        help="Ignore entries which are dated in the future"
+        '--include-future', action='store_true',
+        help="Include stories which are future-dated"
     )
 
     parser.add_argument(
@@ -70,7 +70,7 @@ def main():
         sources = get_sources(filepath=args.config)
         local_timezone = timezone(args.locality)
         terminal = Terminal(sources, dimensions=(args.width, args.height), interval_secs=args.delay,
-                            locality=local_timezone, ignore_future=args.ignore_future)
+                            locality=local_timezone, include_future=args.include_future)
         terminal.run()
 
 

@@ -8,12 +8,12 @@ from newsterm.feeds import get_latest_updates
 
 class Terminal:
 
-    def __init__(self, sources: dict, dimensions: tuple, interval_secs: int, locality: timezone, ignore_future: bool):
+    def __init__(self, sources: dict, dimensions: tuple, interval_secs: int, locality: timezone, include_future: bool):
         self.sources = sources
         self.dimensions = dimensions
         self.interval_secs = interval_secs
         self.locality = locality
-        self.ignore_future = ignore_future
+        self.include_future = include_future
 
     def run(self, run_once: bool = False):
         """ Primary run loop - call sources and update terminal
@@ -28,7 +28,7 @@ class Terminal:
         print("Loading initial sources...")
 
         # Initialise Cache
-        latest_updates = get_latest_updates(self.sources, self.locality, self.ignore_future)
+        latest_updates = get_latest_updates(self.sources, self.locality, self.include_future)
         cache.add_list(latest_updates)
 
         # Run until quit
@@ -38,7 +38,7 @@ class Terminal:
             sleep(1)
             if interval_counter % self.interval_secs == 0:
                 display.update(cache.get_most_recent_entries(10))
-                latest_updates = get_latest_updates(self.sources, self.locality, self.ignore_future)
+                latest_updates = get_latest_updates(self.sources, self.locality, self.include_future)
                 cache.add_list(latest_updates)
                 interval_counter = 0
             interval_counter += 1
