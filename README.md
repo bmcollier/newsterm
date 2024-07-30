@@ -29,3 +29,4 @@ options:
   --delay DELAY    Number of seconds to pause between each refresh (default:
                    30 seconds)
 
+Please be aware that I'm still implementing the height and width control.
