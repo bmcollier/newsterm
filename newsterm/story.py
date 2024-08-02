@@ -7,4 +7,5 @@ class Story:
     source: str
     title: str
     summary: str
+    retrieved: datetime
     datetime: datetime

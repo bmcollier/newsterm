@@ -4,6 +4,7 @@ from dateutil import parser
 from pytz import timezone
 
 import feedparser
+from unidecode import unidecode
 
 from newsterm.story import Story
 
@@ -26,20 +27,32 @@ def get_latest_updates(sources: dict, locality: timezone, include_future: bool) 
                 if (not include_future) and (localised_datetime > datetime.now(locality)):
                     continue
                 new_story = Story(source=source_name,
-                                  title=entry.title,
-                                  summary=remove_html_markup(entry.summary),
-                                  datetime=localised_datetime)
+                                  title=unidecode(entry.title),
+                                  summary=(unidecode(remove_html_markup(entry.summary))),
+                                  datetime=localised_datetime,
+                                  retrieved=datetime.now(locality))
             except AttributeError:
                 published_dt = datetime.now(locality)
                 new_story = Story(source=source_name,
                                   title="ERROR. This source is missing a required attribute. Check the RSS.",
                                   summary="This can happen if a publication omits a 'published' datetime.",
-                                  datetime=published_dt)
+                                  datetime=published_dt,
+                                  retrieved=datetime.now(locality))
 
             latest_updates.append(new_story)
     return latest_updates
 
 
 def remove_html_markup(text):
-    clean = re.compile('<.*?>')
-    return re.sub(clean, '', text)
+    # Replace specific tags with a space
+    text = re.sub(r'</p>\s*<p>', ' ', text)
+    text = re.sub(r'<br\s*/?>', ' ', text)
+    text = re.sub(r'<li\s*/?>', ' ', text)
+
+    # Remove any remaining HTML tags
+    text = re.sub(r'<[^>]+>', '', text)
+
+    # Remove any extra spaces that may result from substitutions
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    return text

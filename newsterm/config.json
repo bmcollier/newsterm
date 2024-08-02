@@ -3,7 +3,6 @@
     "BBC": "https://feeds.bbci.co.uk/news/rss.xml",
     "CNN": "http://rss.cnn.com/rss/cnn_latest.rss",
     "NPR": "https://feeds.npr.org/1001/rss.xml",
-    "HN": "https://news.ycombinator.com/rss",
     "Guardian": "https://www.theguardian.com/uk/rss",
     "Reuters": "http://feeds.reuters.com/Reuters/worldNews",
     "Ars Technica": "http://feeds.arstechnica.com/arstechnica/index/",

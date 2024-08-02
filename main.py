@@ -58,8 +58,23 @@ def main():
     )
 
     parser.add_argument(
+        '--stories', type=int, default=9,
+        help="Number of stories to display (default of 9. Will by clipped by --height limit)"
+    )
+
+    parser.add_argument(
+        '--lines', type=int, default=2,
+        help="Number of lines to use per story. Default of 2."
+    )
+
+    parser.add_argument(
+        '--pages', type=int, default=1,
+        help="Maximum pages of results to display. Default of 1."
+    )
+
+    parser.add_argument(
         '--extended-help', action='store_true',
-        help="Show extended help for options --locality, --width, --height"
+        help="Show extended help for all options."
     )
 
     args = parser.parse_args()
@@ -70,7 +85,8 @@ def main():
         sources = get_sources(filepath=args.config)
         local_timezone = timezone(args.locality)
         terminal = Terminal(sources, dimensions=(args.width, args.height), interval_secs=args.delay,
-                            locality=local_timezone, include_future=args.include_future)
+                            locality=local_timezone, include_future=args.include_future, num_stories=args.stories,
+                            lines_per_story=args.lines, max_pages=args.pages)
         terminal.run()
 
 
