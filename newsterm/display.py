@@ -64,7 +64,7 @@ class Display:
         self.window.addstr(summary_line, curses.A_NORMAL)
 
     def write_story_lines(self, story, start_row):
-        title_line = f"{str(story.datetime)[11:16]} {story.source} {story.title}"
+        title_line = f"{str(story.datetime)[11:16]}/{story.source}: {story.title}"
         summary_line = story.summary
 
         if len(title_line) > self.dimensions[0]:
